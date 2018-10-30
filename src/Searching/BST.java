@@ -6,6 +6,7 @@ import stdlib.StdOut;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.NoSuchElementException;
 
 /******************************************************************************
@@ -531,9 +532,12 @@ public class BST<Key extends Comparable<Key>, Value> {
      *
      * @param args the command-line arguments
      */
-    public static void main(String[] args)throws IOException { 
-        System.setIn(new FileInputStream(new File("tinyST.txt")));
+    public static void main(String[] args)throws IOException {
         BST<String, Integer> st = new BST<String, Integer>();
+
+        URL url = st.getClass().getResource("tinyST.txt");
+
+        System.setIn(new FileInputStream(new File(url.getPath())));
         for (int i = 0; !StdIn.isEmpty(); i++) {
             String key = StdIn.readString();
             st.put(key, i);

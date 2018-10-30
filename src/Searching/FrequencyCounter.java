@@ -6,6 +6,7 @@ import stdlib.StdOut;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 /******************************************************************************
  *  Compilation:  javac FrequencyCounter.java
  *  Execution:    java FrequencyCounter L < input.txt
@@ -61,12 +62,16 @@ public class FrequencyCounter {
      * @param args the command-line arguments
      */
     public static void main(String[] args)throws IOException {
-        System.setIn(new FileInputStream(new File("tinyTale.txt")));
-        int distinct = 0, words = 0;
-        int minlen = Integer.parseInt(args[0]);
         ST<String, Integer> st = new ST<String, Integer>();
 
-        // compute frequency counts
+        URL url = st.getClass().getResource("tinyST.txt");
+
+        System.setIn(new FileInputStream(new File(url.getPath())));
+        int distinct = 0, words = 0;
+        int minlen = 1;// Integer.parseInt(args[0]);
+//
+//
+//        // compute frequency counts
         while (!StdIn.isEmpty()) {
             String key = StdIn.readString();
             if (key.length() < minlen) continue;
@@ -79,7 +84,7 @@ public class FrequencyCounter {
                 distinct++;
             }
         }
-
+//
         // find a key with the highest frequency count
         String max = "";
         st.put(max, 0);

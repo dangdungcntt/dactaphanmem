@@ -6,6 +6,7 @@ import stdlib.StdOut;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 /******************************************************************************
  *  Compilation:  javac TopM.java
  *  Execution:    java TopM m < input.txt
@@ -53,9 +54,12 @@ public class TopM {
      * @param args the command-line arguments
      */
     public static void main(String[] args) throws IOException{
-        System.setIn(new FileInputStream(new File("tinyBatch.txt")));
-        int m = Integer.parseInt(args[0]); 
+        int m = Integer.parseInt(args[0]);
         MinPQ<Transaction> pq = new MinPQ<Transaction>(m+1);
+
+        URL url = pq.getClass().getResource("tinyBatch.txt");
+
+        //System.setIn(new FileInputStream(new File(url.getPath())));
 
         while (StdIn.hasNextLine()) {
             // Create an entry from the next line and put on the PQ. 
