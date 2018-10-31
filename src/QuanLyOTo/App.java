@@ -1,88 +1,48 @@
 package QuanLyOTo;
 
 import Searching.BinarySearchST;
+import Searching.SeparateChainingHashST;
 import Sorting.Heap;
+import Sorting.MaxPQ;
+import Sorting.MinPQ;
+import stdlib.StdIn;
 
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class App {
 
-    public static void main(String[] args) {
-        Car[] cars = readData(Paths.get("src/data.txt").toAbsolutePath().toString());
+    public static void main(String[] args) throws FileNotFoundException {
 
-        if (cars == null) {
-            return;
-        }
-
-        //Before sort
-        show(cars, "src/output_before_sort.txt");
-        //Sort
-        Heap.sort(cars);
-        //After sort
-        show(cars, "src/output_after_sort.txt");
 
         //Searching
-        BinarySearchST<String, Car> binarySearchST = new BinarySearchST<>();
-        for (Car car : cars) {
-            binarySearchST.put(car.getName(), car);
+        SeparateChainingHashST<String, Car> st = new SeparateChainingHashST<>();
+        System.setIn(new FileInputStream(new File("src/data.txt")));
+
+        while(!StdIn.isEmpty()) {
+            String str = StdIn.readLine();
+            String[] arr = str.split("\\|");
+            st.put(arr[0], new Car(
+                    arr[0],
+                    arr[1],
+                    Float.parseFloat(arr[2]),
+                    Integer.parseInt(arr[3])
+            ));
         }
 
-        for (String key : binarySearchST.keys()) {
-            System.out.println(key + " => " + binarySearchST.get(key));
-        }
-    }
+        MinPQ<Car> queue = new MinPQ<>();
 
-    public static void show(Comparable[] array, String outputPath) {
-
-        if (outputPath != null) {
-            try {
-                PrintStream console = System.out;
-                System.setOut(new PrintStream(new File(outputPath)));
-                printArray(array);
-                System.setOut(console);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            return;
+        for (String s : st.keys()) {
+            queue.insert(st.get(s));
         }
 
-        printArray(array);
-    }
+        System.setOut(new PrintStream(new File("src/output.txt")));
 
-    private static void printArray(Comparable[] array) {
-        for (Comparable anArray : array) {
-            System.out.println(anArray);
+        for (Car car : queue) {
+            System.out.println(car);
         }
-    }
-
-    private static Car[] readData(String path) {
-
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-
-            List<Car> listCar = new ArrayList<>();
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] arr = line.split("\\|");
-                listCar.add(new Car(
-                        Integer.parseInt(arr[0]),
-                        arr[1],
-                        Float.parseFloat(arr[2]),
-                        Integer.parseInt(arr[3])
-                ));
-            }
-
-            bufferedReader.close();
-
-            return listCar.toArray(new Car[0]);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
     }
 }

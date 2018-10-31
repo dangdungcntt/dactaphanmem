@@ -1,30 +1,30 @@
 package QuanLyOTo;
 
 public class Car implements Comparable {
-    private int id;
+    private String id;
     private String name;
     private float weight;
     private int manufactureYear;
 
     public Car() {
-        this.id = 0;
+        this.id = "";
         this.name = "";
         this.weight = 0.0f;
         this.manufactureYear = 1970;
     }
 
-    public Car(int id, String name, float weight, int manufactureYear) {
+    public Car(String id, String name, float weight, int manufactureYear) {
         this.id = id;
         this.name = name;
         this.weight = weight;
         this.manufactureYear = manufactureYear;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -54,7 +54,7 @@ public class Car implements Comparable {
 
     @Override
     public String toString() {
-        return String.format("%d. %s %.2f %d", id, name, weight, manufactureYear);
+        return String.format("%s. %s %.2f %d", id, name, weight, manufactureYear);
     }
 
     @Override
